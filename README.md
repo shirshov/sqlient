@@ -1,6 +1,8 @@
 # SQLient
 
-AA SQLite workbench for VS Code, tailored for Cloudflare and mobile development.
+An SQLite workbench for VS Code, tailored for Cloudflare and mobile development.
+
+![SQLient showing Cloudflare D1, Durable Object, and iOS Simulator databases side by side with query results](media/sqlient-screenshot.png)
 
 SQLient finds the databases that belong to your project — local Cloudflare D1, Durable
 Object SQLite stores, iOS simulator databases — and lets you query them immediately. No

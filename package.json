@@ -1,9 +1,9 @@
 {
   "name": "sqlient",
   "displayName": "SQLient",
-  "description": "Run SQL against SQLite and Cloudflare D1 databases with a results table and schema explorer.",
-  "version": "0.2.0",
-  "publisher": "alex",
+  "description": "An SQLite workbench for VS Code, tailored for Cloudflare and mobile development.",
+  "version": "0.2.1",
+  "publisher": "AlexShirshov",
   "license": "MIT",
   "repository": {
     "type": "git",
