@@ -1,0 +1,258 @@
+{
+  "name": "sqlient",
+  "displayName": "SQLient",
+  "description": "Run SQL against SQLite and Cloudflare D1 databases with a results table and schema explorer.",
+  "version": "0.2.0",
+  "publisher": "alex",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shirshov/sqlient.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shirshov/sqlient/issues"
+  },
+  "homepage": "https://github.com/shirshov/sqlient",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#2563eb",
+    "theme": "dark"
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "virtualWorkspaces": false,
+    "untrustedWorkspaces": {
+      "supported": false
+    }
+  },
+  "engines": {
+    "vscode": "^1.146.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "sqlite",
+    "sqlite3",
+    "sql",
+    "database",
+    "query",
+    "cloudflare",
+    "d1",
+    "ios",
+    "simulator"
+  ],
+  "activationEvents": [
+    "onLanguage:sql",
+    "onView:sqlient.databases",
+    "onView:sqlient.results"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sqlient.browseDatabase",
+        "title": "Browse for database file...",
+        "category": "SQLient"
+      },
+      {
+        "command": "sqlient.runQuery",
+        "title": "Run Query",
+        "category": "SQLient",
+        "icon": "media/play.svg"
+      },
+      {
+        "command": "sqlient.refreshDatabases",
+        "title": "Refresh Databases",
+        "category": "SQLient",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "sqlient.newQueryFromDatabase",
+        "title": "New query",
+        "icon": "$(file)"
+      },
+      {
+        "command": "sqlient.newQueryFromTable",
+        "title": "New SELECT query",
+        "icon": "$(file)"
+      },
+      {
+        "command": "sqlient.newCreateQuery",
+        "title": "New CREATE query",
+        "icon": "$(add)"
+      },
+      {
+        "command": "sqlient.newDropQuery",
+        "title": "New DROP query",
+        "icon": "$(trash)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "sqlient.browseDatabase",
+          "when": "editorLangId == sql"
+        },
+        {
+          "command": "sqlient.runQuery",
+          "when": "editorLangId == sql"
+        },
+        {
+          "command": "sqlient.refreshDatabases"
+        },
+        {
+          "command": "sqlient.newQueryFromDatabase",
+          "when": "false"
+        },
+        {
+          "command": "sqlient.newQueryFromTable",
+          "when": "false"
+        },
+        {
+          "command": "sqlient.newCreateQuery",
+          "when": "false"
+        },
+        {
+          "command": "sqlient.newDropQuery",
+          "when": "false"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "sqlient.runQuery",
+          "when": "editorLangId == sql",
+          "group": "navigation"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "sqlient.refreshDatabases",
+          "when": "view == sqlient.databases",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "sqlient.newQueryFromDatabase",
+          "when": "view == sqlient.databases && viewItem =~ /^database\\./",
+          "group": "inline@1"
+        },
+        {
+          "command": "sqlient.newQueryFromDatabase",
+          "when": "view == sqlient.databases && viewItem == section.tables",
+          "group": "inline@1"
+        },
+        {
+          "command": "sqlient.newQueryFromTable",
+          "when": "view == sqlient.databases && viewItem == object.table",
+          "group": "inline@1"
+        },
+        {
+          "command": "sqlient.newCreateQuery",
+          "when": "view == sqlient.databases && viewItem =~ /^object\\./",
+          "group": "inline@2"
+        },
+        {
+          "command": "sqlient.newDropQuery",
+          "when": "view == sqlient.databases && viewItem =~ /^object\\./",
+          "group": "inline@3"
+        },
+        {
+          "command": "sqlient.newQueryFromTable",
+          "when": "view == sqlient.databases && viewItem == object.table",
+          "group": "sqlient@1"
+        },
+        {
+          "command": "sqlient.newCreateQuery",
+          "when": "view == sqlient.databases && viewItem =~ /^object\\./",
+          "group": "sqlient@2"
+        },
+        {
+          "command": "sqlient.newDropQuery",
+          "when": "view == sqlient.databases && viewItem =~ /^object\\./",
+          "group": "sqlient@3"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "sqlient-explorer",
+          "title": "SQLient",
+          "icon": "media/sqlient.svg"
+        }
+      ],
+      "panel": [
+        {
+          "id": "sqlient",
+          "title": "SQLient",
+          "icon": "media/sqlient.svg"
+        }
+      ]
+    },
+    "views": {
+      "sqlient-explorer": [
+        {
+          "id": "sqlient.databases",
+          "name": "Databases"
+        }
+      ],
+      "sqlient": [
+        {
+          "type": "webview",
+          "id": "sqlient.results",
+          "name": "Results"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SQLient",
+      "properties": {
+        "sqlient.maxRows": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 1,
+          "description": "Maximum number of rows fetched per statement."
+        },
+        "sqlient.readOnly": {
+          "type": "boolean",
+          "default": false,
+          "description": "Open database files in read-only mode."
+        },
+        "sqlient.persistPaths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Extra Wrangler persist directories to search for local D1 and Durable Object state (relative to each workspace folder, or absolute)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:harness": "node test/harness/run.cjs",
+    "test:integration": "node test/integration/runTest.js",
+    "check": "npm run typecheck && npm run test",
+    "verify": "npm run check && npm run build && npm run test:harness",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/vscode": "^1.146.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.1",
+    "esbuild": "^0.28.2",
+    "mocha": "^12.0.3",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}
